@@ -2,6 +2,7 @@
 import pandas as pd
 import os
 
+
 #criando um caminho flexivel para os arquivos serem carregados no programa(importante para compartilhar o codigo)
 pasta_dados = os.path.join(os.getcwd(), "dados") 
 
@@ -17,9 +18,14 @@ Vendas_22 = pd.read_excel(os.path.join(pasta_dados, 'Base Vendas - 2022.xlsx'))#
 Vendas = pd.concat([Vendas_20, Vendas_21, Vendas_22])#vendas globais
 
 #vendo as informaçoes 
-print(Vendas.head())
-print(Produtos.head())
-print(Lojas.head())
-print(Localidades.head())
-print(Devoluções.head())
-print(Vendas.head())
+
+#Função para verificar valores nulos nas planilhas
+def colunas_vazias (Planilha):
+    informacoes = Planilha.isnull().mean()*100
+    colunas_com_nulos = informacoes[informacoes > 0]  
+
+    if colunas_com_nulos.empty:
+        print(f'A planilha não possui informações vazias.')
+    else:
+        print('A planilha possui valores nulos nas seguintes colunas:')
+        print(colunas_com_nulos)
